@@ -4,8 +4,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CROSSY ROAD</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        canvas {
+            background-color: gray;
+        }
+    </style>
 </head>
 <body>
-    
+    <canvas id="canvas" width="900" height="900" tabindex="0"></canvas> 
+    <script type="text/javascript">
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+
+        var inicio = false;
+
+        document.addEventListener("keydown", function(e){
+             console.log(e);
+
+            switch(e.key)
+            {
+                case "Enter":
+                    inicio = true;
+                    console.log(inicio)
+                break;
+            }
+
+        })
+
+        function pintar(){
+
+            if(inicio == true){
+                ctx.fillStyle = "blue";
+                ctx.fillRect(0, 0, 900, 900);
+                ctx.fillStyle = "black";
+                ctx.font = "50px Verdana";
+                ctx.fillText("J U E G O", 330, 450,);
+            }else{
+                ctx.fillStyle = "red";
+                ctx.fillRect(0, 0, 900, 900);
+                ctx.fillStyle = "black";
+                ctx.font = "50px Verdana";
+                ctx.fillText("PRESS ENTER", 280, 400,);
+                ctx.fillText("TO START", 330, 500,);
+            }
+
+            requestAnimationFrame(pintar);
+
+        }
+
+        requestAnimationFrame(pintar);
+
+
+    </script>
 </body>
 </html>
