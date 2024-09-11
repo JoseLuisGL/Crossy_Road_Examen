@@ -25,6 +25,10 @@
         const ctx = canvas.getContext("2d");
 
         var inicio = false;
+        var campo = new Image();
+        campo.src = "campo.jpeg";
+        var startTimer = 0;
+        var timer = 0;
 
         document.addEventListener("keydown", function(e){
              console.log(e);
@@ -32,8 +36,10 @@
             switch(e.key)
             {
                 case "Enter":
-                    inicio = true;
-                    console.log(inicio)
+                    if (!inicio) {
+                        inicio = true;
+                        startTimer = Date.now();
+                    }
                 break;
             }
 
@@ -42,11 +48,12 @@
         function pintar(){
 
             if(inicio == true){
-                ctx.fillStyle = "blue";
-                ctx.fillRect(0, 0, 900, 900);
-                ctx.fillStyle = "black";
-                ctx.font = "50px Verdana";
-                ctx.fillText("J U E G O", 330, 450,);
+                ctx.drawImage(campo, 0, 0, 900, 900);
+                ctx.font = "20px Verdana";
+                timer = Math.floor((Date.now() - startTimer) / 1000);
+                ctx.clearRect(395, 10, 130, 30); 
+                ctx.fillText("Tiempo: " + timer, 400, 30,);
+
             }else{
                 ctx.fillStyle = "red";
                 ctx.fillRect(0, 0, 900, 900);
