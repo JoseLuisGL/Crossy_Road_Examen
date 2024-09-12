@@ -91,26 +91,26 @@
                 {
                     case "up":
                         player.y-=speed;
-                        if(player.y ==-40){
-                            player.y = 600;
+                        if(player.y <= 0){
+                            player.y = 0;
                         }
                     break;
                     case "down":
                         player.y+=speed;
-                        if(player.y ==940){
-                            player.y = -40;
+                        if(player.y >= 900){
+                            player.y = 870;
                         }
                     break;
                     case "left":
                         player.x-=speed;
-                        if(player.x == -40){
-                            player.x = 840;
+                        if(player.x <= 0){
+                            player.x = 0;
                         }
                     break;
                     case "right":
                         player.x+=speed;
-                        if(player.x == 940){
-                            player.x = -40;
+                        if(player.x >= 900){
+                            player.x = 870;
                         }
                     break;
                 }
