@@ -24,26 +24,100 @@
         const canvas = document.getElementById("canvas");
         const ctx = canvas.getContext("2d");
 
+        var direction = "";
+        var speed = 30;
         var inicio = false;
+        var pause = false;
         var campo = new Image();
         campo.src = "campo.jpeg";
         var startTimer = 0;
+        var pausedTimer = 0;
         var timer = 0;
 
-        document.addEventListener("keydown", function(e){
+        class Player {
+            constructor(x, y , w, h, s) {
+                this.x = x;
+                this.y = y;
+                this.w = w;
+                this.h = h;
+                this.s = s;
+            }
+
+        }
+
+        //Jugador y Obstaculos
+        var player = new Player(350,819,30,30,10);
+
+        document.addEventListener("keyup", function(e){
              console.log(e);
 
             switch(e.key)
             {
+                case "w":
+                    direction = "up";
+                break;
+                case "s":
+                    direction = "down";
+                break;
+                case "a":
+                    direction = "left";
+                break;
+                case "d":
+                    direction = "right";
+                break;
                 case "Enter":
                     if (!inicio) {
                         inicio = true;
                         startTimer = Date.now();
+                        pausedTimer = 0;
+                    }
+                break;
+                case " ":
+                    pause = !pause;
+                    if (pause) {
+                        pausedTimer = Date.now();
+                    } else {
+                        startTimer += Date.now() - pausedTimer;
                     }
                 break;
             }
 
         })
+
+         function update(){
+
+            if(!pause){
+                switch(direction)
+                {
+                    case "up":
+                        player.y-=speed;
+                        if(player.y ==-40){
+                            player.y = 600;
+                        }
+                    break;
+                    case "down":
+                        player.y+=speed;
+                        if(player.y ==940){
+                            player.y = -40;
+                        }
+                    break;
+                    case "left":
+                        player.x-=speed;
+                        if(player.x == -40){
+                            player.x = 840;
+                        }
+                    break;
+                    case "right":
+                        player.x+=speed;
+                        if(player.x == 940){
+                            player.x = -40;
+                        }
+                    break;
+                }
+                direction = "";
+            }
+
+        }
 
         function pintar(){
 
@@ -53,6 +127,22 @@
                 timer = Math.floor((Date.now() - startTimer) / 1000);
                 ctx.clearRect(395, 10, 130, 30); 
                 ctx.fillText("Tiempo: " + timer, 400, 30,);
+                
+                //Jugador
+                ctx.fillRect(player.x, player.y, player.w, player.h);
+                ctx.stroke();
+
+                if(pause){
+                    ctx.clearRect(395, 10, 130, 30);
+                    ctx.font = "15px Verdana";
+                    ctx.fillText("Tiempo pausado", 398, 30,);
+                    ctx.fillStyle = "rgba(144, 144, 144, 0.5)";
+                    ctx.fillRect(0, 0, 900, 900);
+                    ctx.fillStyle = "black";
+                    ctx.font = "50px Verdana";
+                    ctx.fillText("P A U S A", 330, 450,);
+                    timer = timer;
+                }
 
             }else{
                 ctx.fillStyle = "red";
@@ -62,7 +152,7 @@
                 ctx.fillText("PRESS ENTER", 280, 400,);
                 ctx.fillText("TO START", 330, 500,);
             }
-
+            update();
             requestAnimationFrame(pintar);
 
         }
