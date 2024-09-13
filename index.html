@@ -30,18 +30,27 @@
         var inicio = false;
         var pause = false;
         var campo = new Image();
+        var playerMovRight = new Image();
+        var playerMovLeft = new Image();
         campo.src = "campo.jpeg";
+        playerMovRight.src = "libro_derecha.png";
+        playerMovLeft .src = "libro_izquierda.png";
         var startTimer = 0;
         var pausedTimer = 0;
         var timer = 0;
 
         class Player {
-            constructor(x, y , w, h, s) {
+            constructor(x, y , w, h, s, img) {
                 this.x = x;
                 this.y = y;
                 this.w = w;
                 this.h = h;
                 this.s = s;
+                this.img = playerMovRight;
+            }
+
+            playerDraw() {
+                ctx.drawImage(this.img, this.x, this.y, this.w, this.h);
             }
 
         }
@@ -66,12 +75,13 @@
 
 
         //Jugador y Obstaculos
-        var player = new Player(350,819,30,30,10);
-        obstaculos.push(new Obstaculo(100, 105, 100, 42, 2))
-        obstaculos.push(new Obstaculo(100, 759, 100, 42, 2))
-        obstaculos.push(new Obstaculo(100, 590, 100, 42, 2))
-        obstaculos.push(new Obstaculo(100, 430, 100, 42, 2))
-        obstaculos.push(new Obstaculo(100, 270, 100, 42, 2))
+        var player = new Player(350,819,50,50,10);
+        obstaculos.push(new Obstaculo(100, 105, 100, 42, 7))
+        obstaculos.push(new Obstaculo(500, 270, 100, 42, 6))
+        obstaculos.push(new Obstaculo(400, 430, 100, 42, 5))
+        obstaculos.push(new Obstaculo(300, 590, 100, 42, 4))
+        obstaculos.push(new Obstaculo(200, 759, 100, 42, 3))
+        
         
 
         document.addEventListener("keyup", function(e){
@@ -87,9 +97,11 @@
                 break;
                 case "a":
                     direction = "left";
+                    player.img = playerMovLeft;
                 break;
                 case "d":
                     direction = "right";
+                    player.img = playerMovRight;
                 break;
                 case "Enter":
                     if (!inicio) {
@@ -158,12 +170,7 @@
                 ctx.fillText("Tiempo: " + timer, 400, 30,);
                 
                 //Jugador
-                ctx.fillRect(player.x, player.y, player.w, player.h);
-                ctx.stroke();
-
-                if(player.y ==20){
-                    console.log("ganaste");
-                }
+                player.playerDraw();
 
                 //Obstaculos
                 obstaculos.forEach(function (obstaculo, indice, array) {
