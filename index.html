@@ -29,6 +29,7 @@
         var speed = 30;
         var inicio = false;
         var pause = false;
+        var level = 1;
         var campo = new Image();
         var playerMovRight = new Image();
         var playerMovLeft = new Image();
@@ -53,6 +54,17 @@
                 ctx.drawImage(this.img, this.x, this.y, this.w, this.h);
             }
 
+            contacto(otro) {
+                if( this.x < otro.x + otro.w &&
+                    this.x + this.w > otro.x &&
+                    this.y < otro.y + otro.h &&
+                    this.y + this.h > otro.y)
+                {
+                    return true;
+                }
+                return false;
+            }
+
         }
 
         class Obstaculo {
@@ -75,7 +87,7 @@
 
 
         //Jugador y Obstaculos
-        var player = new Player(350,819,50,50,10);
+        var player = new Player(450,819,50,50,10);
         obstaculos.push(new Obstaculo(100, 105, 100, 42, 7))
         obstaculos.push(new Obstaculo(500, 270, 100, 42, 6))
         obstaculos.push(new Obstaculo(400, 430, 100, 42, 5))
@@ -156,6 +168,19 @@
                 direction = "";
 
                 obstaculos.forEach(obstaculo => obstaculo.movimiento());
+
+                /*obstaculos.forEach(obstaculo => {
+                    if(player.contacto(obstaculo)){
+                        player.x = 450;
+                        player.y = 819; 
+                    }
+                });*/
+                obstaculos.forEach(function (obstaculo, indice, array){
+                    if(player.contacto(obstaculo)){
+                        player.x = 450;
+                        player.y = 819; 
+                    }
+                });
             }
 
         }
@@ -168,6 +193,10 @@
                 timer = Math.floor((Date.now() - startTimer) / 1000);
                 ctx.clearRect(395, 10, 130, 30); 
                 ctx.fillText("Tiempo: " + timer, 400, 30,);
+
+                ctx.font = "20px Verdana";
+                ctx.clearRect(795, 10, 130, 30); 
+                ctx.fillText("Nivel: " + level, 800, 30,);
                 
                 //Jugador
                 player.playerDraw();
