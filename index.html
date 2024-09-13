@@ -25,6 +25,7 @@
         const ctx = canvas.getContext("2d");
 
         var direction = "";
+        var obstaculos = [];
         var speed = 30;
         var inicio = false;
         var pause = false;
@@ -45,8 +46,33 @@
 
         }
 
+        class Obstaculo {
+            constructor(x, y , w, h, s) {
+                this.x = x;
+                this.y = y;
+                this.w = w;
+                this.h = h;
+                this.s = s;
+            }
+
+            movimiento() {
+                this.x += this.s;
+                if (this.x > 900) {
+                    this.x = -this.w;
+                }
+            }
+
+        }
+
+
         //Jugador y Obstaculos
         var player = new Player(350,819,30,30,10);
+        obstaculos.push(new Obstaculo(100, 105, 100, 42, 2))
+        obstaculos.push(new Obstaculo(100, 759, 100, 42, 2))
+        obstaculos.push(new Obstaculo(100, 590, 100, 42, 2))
+        obstaculos.push(new Obstaculo(100, 430, 100, 42, 2))
+        obstaculos.push(new Obstaculo(100, 270, 100, 42, 2))
+        
 
         document.addEventListener("keyup", function(e){
              console.log(e);
@@ -86,6 +112,7 @@
 
          function update(){
 
+
             if(!pause){
                 switch(direction)
                 {
@@ -115,6 +142,8 @@
                     break;
                 }
                 direction = "";
+
+                obstaculos.forEach(obstaculo => obstaculo.movimiento());
             }
 
         }
@@ -131,6 +160,16 @@
                 //Jugador
                 ctx.fillRect(player.x, player.y, player.w, player.h);
                 ctx.stroke();
+
+                if(player.y ==20){
+                    console.log("ganaste");
+                }
+
+                //Obstaculos
+                obstaculos.forEach(function (obstaculo, indice, array) {
+                    ctx.fillRect(obstaculo.x, obstaculo.y, obstaculo.w, obstaculo.h);
+                    ctx.stroke();
+                });  
 
                 if(pause){
                     ctx.clearRect(395, 10, 130, 30);
