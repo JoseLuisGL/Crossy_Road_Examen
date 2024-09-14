@@ -33,9 +33,15 @@
         var campo = new Image();
         var playerMovRight = new Image();
         var playerMovLeft = new Image();
+        var obstaculoTijeras = new Image();
+        var obstaculoSerruchos = new Image();
+        var obstaculoMotosierras = new Image();
         campo.src = "campo.jpeg";
         playerMovRight.src = "libro_derecha.png";
         playerMovLeft .src = "libro_izquierda.png";
+        obstaculoTijeras.src = "Tijeras.png";
+        obstaculoSerruchos.src = "Serruchos.png"
+        obstaculoMotosierras.src = "Motosierras.png"
         var startTimer = 0;
         var pausedTimer = 0;
         var timer = 0;
@@ -68,12 +74,13 @@
         }
 
         class Obstaculo {
-            constructor(x, y , w, h, s) {
+            constructor(x, y , w, h, s, img) {
                 this.x = x;
                 this.y = y;
                 this.w = w;
                 this.h = h;
                 this.s = s;
+                this.img = img;
             }
 
             movimiento() {
@@ -88,12 +95,12 @@
 
         //Jugador y Obstaculos
         var player = new Player(450,819,50,50,10);
-        obstaculos.push(new Obstaculo(100, 105, 100, 42, 7))
-        obstaculos.push(new Obstaculo(500, 270, 100, 42, 6))
-        obstaculos.push(new Obstaculo(400, 430, 100, 42, 5))
-        obstaculos.push(new Obstaculo(300, 590, 100, 42, 4))
-        obstaculos.push(new Obstaculo(200, 759, 100, 42, 3))
-        
+        obstaculos.push(new Obstaculo(100, 90, 100, 70, 7, obstaculoTijeras));
+        obstaculos.push(new Obstaculo(500, 255, 100, 70, 6, obstaculoTijeras));
+        obstaculos.push(new Obstaculo(400, 417, 100, 70, 5, obstaculoTijeras));
+        obstaculos.push(new Obstaculo(300, 582, 100, 70, 4, obstaculoTijeras));
+        obstaculos.push(new Obstaculo(200, 745, 100, 70, 3, obstaculoTijeras));
+
         
 
         document.addEventListener("keyup", function(e){
@@ -169,18 +176,42 @@
 
                 obstaculos.forEach(obstaculo => obstaculo.movimiento());
 
-                /*obstaculos.forEach(obstaculo => {
-                    if(player.contacto(obstaculo)){
-                        player.x = 450;
-                        player.y = 819; 
-                    }
-                });*/
                 obstaculos.forEach(function (obstaculo, indice, array){
                     if(player.contacto(obstaculo)){
                         player.x = 450;
                         player.y = 819; 
                     }
                 });
+
+                //Ganar
+                if(player.y <= 39){
+                    console.log("ganaste");
+                    level++;
+                    player.x = 450;
+                    player.y = 819;
+
+                    if (level === 2) {
+                        obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 90, 100, 70, 7, obstaculoSerruchos))
+                        obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 255, 100, 70, 6, obstaculoSerruchos))
+                        obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 417, 100, 70, 5, obstaculoSerruchos))
+                        obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 582, 100, 70, 4, obstaculoSerruchos))
+                        obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 745, 100, 70, 3, obstaculoSerruchos))
+                    } else if (level === 3) {
+                        obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 90, 100, 70, 7, obstaculoMotosierras))
+                        obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 255, 100, 70, 6, obstaculoMotosierras))
+                        obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 417, 100, 70, 5, obstaculoMotosierras))
+                        obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 582, 100, 70, 4, obstaculoMotosierras))
+                        obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 745, 100, 70, 3, obstaculoMotosierras))
+                    }
+
+                    /*obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 90, 100, 70, 7))
+                    obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 255, 100, 70, 6))
+                    obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 417, 100, 70, 5))
+                    obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 582, 100, 70, 4))
+                    obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 745, 100, 70, 3))*/
+
+
+                }
             }
 
         }
@@ -202,10 +233,9 @@
                 player.playerDraw();
 
                 //Obstaculos
-                obstaculos.forEach(function (obstaculo, indice, array) {
-                    ctx.fillRect(obstaculo.x, obstaculo.y, obstaculo.w, obstaculo.h);
-                    ctx.stroke();
-                });  
+                obstaculos.forEach(function (obstaculo) {
+                    ctx.drawImage(obstaculo.img, obstaculo.x, obstaculo.y, obstaculo.w, obstaculo.h);
+                });
 
                 if(pause){
                     ctx.clearRect(395, 10, 130, 30);
