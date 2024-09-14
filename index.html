@@ -66,12 +66,14 @@
         var obstaculoTijeras = new Image();
         var obstaculoSerruchos = new Image();
         var obstaculoMotosierras = new Image();
+        var imagenPausa = new Image();
         campo.src = "campo_fondo.jpg";
         playerMovRight.src = "gato_derecha.png";
         playerMovLeft .src = "gato_izquierda.png";
         obstaculoTijeras.src = "Tijeras.png";
         obstaculoSerruchos.src = "Serruchos.png"
         obstaculoMotosierras.src = "Motosierras.png"
+        imagenPausa.src = "menuPausa.png"
         var startTimer = 0;
         var pausedTimer = 0;
         var timer = 0;
@@ -106,19 +108,27 @@
         }
 
         class Obstaculo {
-            constructor(x, y , w, h, s, img) {
+            constructor(x, y , w, h, s, img, dir = "right") {
                 this.x = x;
                 this.y = y;
                 this.w = w;
                 this.h = h;
                 this.s = s;
                 this.img = img;
+                this.dir = dir;
             }
 
             movimiento() {
-                this.x += this.s;
-                if (this.x > 900) {
-                    this.x = -this.w;
+                if (this.dir === "left") {
+                    this.x -= this.s;
+                    if (this.x < -this.w) {
+                        this.x = 900;
+                    }
+                } else {
+                    this.x += this.s;
+                    if (this.x > 900) {
+                        this.x = -this.w;
+                    }
                 }
             }
 
@@ -127,9 +137,9 @@
         //Jugador y Obstaculos
         var player = new Player(450,819,60,60,10);
         obstaculos.push(new Obstaculo(100, 90, 100, 70, 7, obstaculoTijeras));
-        obstaculos.push(new Obstaculo(500, 255, 100, 70, 6, obstaculoTijeras));
+        obstaculos.push(new Obstaculo(500, 255, 100, 70, 6, obstaculoTijeras, "left")); //De derecha a izquierda obstaculo 2
         obstaculos.push(new Obstaculo(400, 417, 100, 70, 5, obstaculoTijeras));
-        obstaculos.push(new Obstaculo(300, 582, 100, 70, 4, obstaculoTijeras));
+        obstaculos.push(new Obstaculo(300, 582, 100, 70, 4, obstaculoTijeras, "left")); //De derecha a izquierda obstaculo 4
         obstaculos.push(new Obstaculo(200, 745, 100, 70, 3, obstaculoTijeras));
 
         
@@ -269,17 +279,11 @@
                     ctx.drawImage(obstaculo.img, obstaculo.x, obstaculo.y, obstaculo.w, obstaculo.h);
                 });
 
-                if(pause){
-                    ctx.clearRect(395, 10, 130, 30);
-                    ctx.font = "15px Verdana";
-                    ctx.fillText("Tiempo pausado", 398, 30,);
-                    ctx.fillStyle = "rgba(144, 144, 144, 0.5)";
-                    ctx.fillRect(0, 0, 900, 900);
-                    ctx.fillStyle = "black";
-                    ctx.font = "50px Verdana";
-                    ctx.fillText("P A U S A", 330, 450,);
-                    timer = timer;
-                }
+                if (pause) {
+                ctx.drawImage(imagenPausa, 0, 0, 930, 900);
+                timer = timer;
+            }
+
 
             }else{
                 ctx.fillStyle = "red";
