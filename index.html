@@ -60,6 +60,8 @@
         var inicio = false;
         var pause = false;
         var level = 1;
+        var level2Transition = false;
+        var level3Transition = false; 
         var campo = new Image();
         var playerMovRight = new Image();
         var playerMovLeft = new Image();
@@ -69,6 +71,8 @@
         var dinero_dollar = new Image();
         var imagenPausa = new Image();
         var imagenStart = new Image();
+        var imagenLevel2 = new Image();
+        var imagenLevel3 = new Image();
         campo.src = "campo_fondo.jpg";
         playerMovRight.src = "gato_derecha.png";
         playerMovLeft .src = "gato_izquierda.png";
@@ -78,9 +82,12 @@
         dinero_dollar.src = "dinero.png";
         imagenPausa.src = "menuPausa.png";
         imagenStart.src = "menuStart.png";
+        imagenLevel2.src = "level2.png";
+        imagenLevel3.src = "level3.png";
         var startTimer = 0;
         var pausedTimer = 0;
         var timer = 0;
+        var score = 0;
         const musica_fondo = new Audio("musica_fondo1.mp3");
         const musica_lluvia = new Audio("musica_lluvia1.mp3");
         const pilladoChaval = new Audio("aw-dangit.mp3");
@@ -231,16 +238,15 @@
                         pilladoChaval.play();
                         player.x = 450;
                         player.y = 819; 
-                        /*dinero.x = Math.floor(Math.random() * 900 - 100);
-                        dinero.y = Math.floor(Math.random() * 900 - 100);*/
                     }
                 });
 
                 if(player.contacto(dinero)){
                     hazPiladoPastaChaval.pause();
                     hazPiladoPastaChaval.play();
-                    dinero.x = Math.floor(Math.random() * 900 - 100);
-                    dinero.y = Math.floor(Math.random() * 900 - 100)
+                    dinero.x = Math.floor(Math.random() * 800 - 100);
+                    dinero.y = Math.floor(Math.random() * 400 - 100)
+                    score+=100;
                 }
 
                 //Ganar
@@ -256,12 +262,29 @@
                         obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 417, 70, 70, 5, obstaculoPerro2))
                         obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 582, 70, 70, 4, obstaculoPerro2, "left"))
                         obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 745, 70, 70, 3, obstaculoPerro2))
+
+                        level2Transition = true;
+
+                        setTimeout(() => {
+                            level2Transition = false;
+                            score += 1000;
+                        }, 2000);
+
+
                     } else if (level === 3) {
                         obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 90, 70, 70, 7, obstaculoPerro3))
                         obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 255, 70, 70, 6, obstaculoPerro3, "left"))
                         obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 417, 70, 70, 5, obstaculoPerro3))
                         obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 582, 70, 70, 4, obstaculoPerro3, "left"))
                         obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 745, 70, 70, 3, obstaculoPerro3))
+                        
+                        level3Transition = true;
+
+                        setTimeout(() => {
+                            level3Transition = false;
+                            score += 1000;
+                        }, 2000);
+
                     }else if (level === 4) {
                         hazGanadoChaval.pause();
                         hazGanadoChaval.play();
@@ -287,12 +310,16 @@
                 ctx.font = "20px Verdana";
                 timer = Math.floor((Date.now() - startTimer) / 1000);
                 ctx.clearRect(395, 10, 130, 30); 
-                ctx.fillText("Tiempo: " + timer, 400, 30,);
+                ctx.fillText("Tiempo: " + timer, 400, 32,);
 
                 ctx.font = "20px Verdana";
                 ctx.clearRect(795, 10, 130, 30); 
-                ctx.fillText("Nivel: " + level, 800, 30,);
+                ctx.fillText("Nivel: " + level, 800, 32,);
                 
+                ctx.font = "20px Verdana";
+                ctx.clearRect(0, 10, 130, 30); 
+                ctx.fillText("Score: " + score, 5, 33,);
+
                 //Jugador
                 player.playerDraw();
 
@@ -308,6 +335,17 @@
                 ctx.drawImage(imagenPausa, 0, 0, 930, 900);
                 timer = timer;
             }
+
+            if (level2Transition) {
+                ctx.drawImage(imagenLevel2, 0, 0, 940, 900);
+                timer = timer;
+            }
+
+            if (level3Transition) {
+                ctx.drawImage(imagenLevel3, 0, 0, 940, 900);
+                timer = timer;
+            }
+
 
 
             }else{
