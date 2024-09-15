@@ -66,16 +66,18 @@
         var obstaculoPerro1 = new Image();
         var obstaculoPerro2 = new Image();
         var obstaculoPerro3 = new Image();
+        var dinero_dollar = new Image();
         var imagenPausa = new Image();
         var imagenStart = new Image();
         campo.src = "campo_fondo.jpg";
         playerMovRight.src = "gato_derecha.png";
         playerMovLeft .src = "gato_izquierda.png";
         obstaculoPerro1.src = "perro1.png";
-        obstaculoPerro2.src = "perro2.png"
-        obstaculoPerro3.src = "perro3.png"
-        imagenPausa.src = "menuPausa.png"
-        imagenStart.src = "menuStart.png"
+        obstaculoPerro2.src = "perro2.png";
+        obstaculoPerro3.src = "perro3.png";
+        dinero_dollar.src = "dinero.png";
+        imagenPausa.src = "menuPausa.png";
+        imagenStart.src = "menuStart.png";
         var startTimer = 0;
         var pausedTimer = 0;
         var timer = 0;
@@ -83,6 +85,7 @@
         const musica_lluvia = new Audio("musica_lluvia1.mp3");
         const pilladoChaval = new Audio("aw-dangit.mp3");
         const hazGanadoChaval = new Audio("yipe_win.mp3");
+        const hazPiladoPastaChaval = new Audio("ding.mp3");
 
         class Player {
             constructor(x, y , w, h, s, img) {
@@ -140,6 +143,7 @@
 
         //Jugador y Obstaculos
         var player = new Player(450,819,60,60,10);
+        var dinero = new Player(Math.random() * (600 - 100), Math.random() * (500 - 100), 30, 30);
         obstaculos.push(new Obstaculo(100, 90, 70, 70, 7, obstaculoPerro1));
         obstaculos.push(new Obstaculo(500, 255, 70, 70, 6, obstaculoPerro1, "left")); //De derecha a izquierda obstaculo 2
         obstaculos.push(new Obstaculo(400, 417, 70, 70, 5, obstaculoPerro1));
@@ -227,8 +231,17 @@
                         pilladoChaval.play();
                         player.x = 450;
                         player.y = 819; 
+                        /*dinero.x = Math.floor(Math.random() * 900 - 100);
+                        dinero.y = Math.floor(Math.random() * 900 - 100);*/
                     }
                 });
+
+                if(player.contacto(dinero)){
+                    hazPiladoPastaChaval.pause();
+                    hazPiladoPastaChaval.play();
+                    dinero.x = Math.floor(Math.random() * 900 - 100);
+                    dinero.y = Math.floor(Math.random() * 900 - 100)
+                }
 
                 //Ganar
                 if(player.y <= 39){
@@ -282,6 +295,9 @@
                 
                 //Jugador
                 player.playerDraw();
+
+                //Dinero
+                ctx.drawImage(dinero_dollar, dinero.x, dinero.y, dinero.w, dinero.h);
 
                 //Obstaculos
                 obstaculos.forEach(function (obstaculo) {
