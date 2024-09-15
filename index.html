@@ -63,17 +63,19 @@
         var campo = new Image();
         var playerMovRight = new Image();
         var playerMovLeft = new Image();
-        var obstaculoTijeras = new Image();
-        var obstaculoSerruchos = new Image();
-        var obstaculoMotosierras = new Image();
+        var obstaculoPerro1 = new Image();
+        var obstaculoPerro2 = new Image();
+        var obstaculoPerro3 = new Image();
         var imagenPausa = new Image();
+        var imagenStart = new Image();
         campo.src = "campo_fondo.jpg";
         playerMovRight.src = "gato_derecha.png";
         playerMovLeft .src = "gato_izquierda.png";
-        obstaculoTijeras.src = "Tijeras.png";
-        obstaculoSerruchos.src = "Serruchos.png"
-        obstaculoMotosierras.src = "Motosierras.png"
+        obstaculoPerro1.src = "perro1.png";
+        obstaculoPerro2.src = "perro2.png"
+        obstaculoPerro3.src = "perro3.png"
         imagenPausa.src = "menuPausa.png"
+        imagenStart.src = "menuStart.png"
         var startTimer = 0;
         var pausedTimer = 0;
         var timer = 0;
@@ -136,11 +138,11 @@
 
         //Jugador y Obstaculos
         var player = new Player(450,819,60,60,10);
-        obstaculos.push(new Obstaculo(100, 90, 100, 70, 7, obstaculoTijeras));
-        obstaculos.push(new Obstaculo(500, 255, 100, 70, 6, obstaculoTijeras, "left")); //De derecha a izquierda obstaculo 2
-        obstaculos.push(new Obstaculo(400, 417, 100, 70, 5, obstaculoTijeras));
-        obstaculos.push(new Obstaculo(300, 582, 100, 70, 4, obstaculoTijeras, "left")); //De derecha a izquierda obstaculo 4
-        obstaculos.push(new Obstaculo(200, 745, 100, 70, 3, obstaculoTijeras));
+        obstaculos.push(new Obstaculo(100, 90, 70, 70, 7, obstaculoPerro1));
+        obstaculos.push(new Obstaculo(500, 255, 70, 70, 6, obstaculoPerro1, "left")); //De derecha a izquierda obstaculo 2
+        obstaculos.push(new Obstaculo(400, 417, 70, 70, 5, obstaculoPerro1));
+        obstaculos.push(new Obstaculo(300, 582, 70, 70, 4, obstaculoPerro1, "left")); //De derecha a izquierda obstaculo 4
+        obstaculos.push(new Obstaculo(200, 745, 70, 70, 3, obstaculoPerro1));
 
         
 
@@ -232,17 +234,17 @@
                     player.y = 819;
 
                     if (level === 2) {
-                        obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 90, 100, 70, 7, obstaculoSerruchos))
-                        obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 255, 100, 70, 6, obstaculoSerruchos))
-                        obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 417, 100, 70, 5, obstaculoSerruchos))
-                        obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 582, 100, 70, 4, obstaculoSerruchos))
-                        obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 745, 100, 70, 3, obstaculoSerruchos))
+                        obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 90, 70, 70, 7, obstaculoPerro2))
+                        obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 255, 70, 70, 6, obstaculoPerro2, "left"))
+                        obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 417, 70, 70, 5, obstaculoPerro2))
+                        obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 582, 70, 70, 4, obstaculoPerro2, "left"))
+                        obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 745, 70, 70, 3, obstaculoPerro2))
                     } else if (level === 3) {
-                        obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 90, 100, 70, 7, obstaculoMotosierras))
-                        obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 255, 100, 70, 6, obstaculoMotosierras))
-                        obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 417, 100, 70, 5, obstaculoMotosierras))
-                        obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 582, 100, 70, 4, obstaculoMotosierras))
-                        obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 745, 100, 70, 3, obstaculoMotosierras))
+                        obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 90, 70, 70, 7, obstaculoPerro3))
+                        obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 255, 70, 70, 6, obstaculoPerro3, "left"))
+                        obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 417, 70, 70, 5, obstaculoPerro3))
+                        obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 582, 70, 70, 4, obstaculoPerro3, "left"))
+                        obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 745, 70, 70, 3, obstaculoPerro3))
                     }
 
                     /*obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 90, 100, 70, 7))
@@ -286,12 +288,7 @@
 
 
             }else{
-                ctx.fillStyle = "red";
-                ctx.fillRect(0, 0, 900, 900);
-                ctx.fillStyle = "black";
-                ctx.font = "50px Verdana";
-                ctx.fillText("PRESS ENTER", 280, 400,);
-                ctx.fillText("TO START", 330, 500,);
+                ctx.drawImage(imagenStart, 0, 0, 930, 900);
             }
             update();
             requestAnimationFrame(pintar);
