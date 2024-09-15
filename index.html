@@ -81,6 +81,8 @@
         var timer = 0;
         const musica_fondo = new Audio("musica_fondo1.mp3");
         const musica_lluvia = new Audio("musica_lluvia1.mp3");
+        const pilladoChaval = new Audio("aw-dangit.mp3");
+        const hazGanadoChaval = new Audio("yipe_win.mp3");
 
         class Player {
             constructor(x, y , w, h, s, img) {
@@ -221,6 +223,8 @@
 
                 obstaculos.forEach(function (obstaculo, indice, array){
                     if(player.contacto(obstaculo)){
+                        pilladoChaval.pause();
+                        pilladoChaval.play();
                         player.x = 450;
                         player.y = 819; 
                     }
@@ -245,6 +249,9 @@
                         obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 417, 70, 70, 5, obstaculoPerro3))
                         obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 582, 70, 70, 4, obstaculoPerro3, "left"))
                         obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 745, 70, 70, 3, obstaculoPerro3))
+                    }else if (level === 4) {
+                        hazGanadoChaval.pause();
+                        hazGanadoChaval.play();
                     }
 
                     /*obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 90, 100, 70, 7))
