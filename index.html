@@ -12,7 +12,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: url(callejon_oscuro.jpeg);
+            background: url(img/callejon_oscuro.jpeg);
             background-size: cover;
             background-repeat: no-repeat;
         }
@@ -25,7 +25,7 @@
             left: 0;
             width: 100%;
             height: 100vh;
-            background: url(rain.png);
+            background: url(img/rain.png);
             animation: rain 0.5s linear infinite;
         }
         .rain::before{
@@ -78,9 +78,9 @@
     <div class="instrucciones">
         <div class="titulo">Instrucciones:</div>
         <br>W. Arriba <br>A. Izquierda <br>S. Abajo <br>D. Derecha
-        <img src="wasd.png" alt="Imagen Instrucciones" class="img-instrucciones">
+        <img src="img/wasd.png" alt="Imagen Instrucciones" class="img-instrucciones">
         SPACE. Pausa <br> <br>
-        <img src="space.png" alt="Imagen Instrucciones" class="img-instrucciones">
+        <img src="img/space.png" alt="Imagen Instrucciones" class="img-instrucciones">
     </div>
     <canvas id="canvas" width="900" height="900" tabindex="0"></canvas> 
     <script type="text/javascript">
@@ -117,21 +117,21 @@
         var imagenWinner = new Image();
 
         //Imagenes
-        campo.src = "campo_fondo.jpg";
-        playerMovRight.src = "gato_derecha.png";
-        playerMovLeft .src = "gato_izquierda.png";
-        obstaculoPerro1.src = "perro1.png";
-        obstaculoPerro2.src = "perro2.png";
-        obstaculoPerro3.src = "perro3.png";
-        obstaculoPerro1left.src = "perro1left.png";
-        obstaculoPerro2left.src = "perro2left.png";
-        obstaculoPerro3left.src = "perro3left.png";
-        dinero_dollar.src = "dinero.png";
-        imagenPausa.src = "menuPausa.png";
-        imagenStart.src = "menuStart.png";
-        imagenLevel2.src = "level2.png";
-        imagenLevel3.src = "level3.png";
-        imagenWinner.src = "winner.png";
+        campo.src = "img/campo_fondo.jpg";
+        playerMovRight.src = "img/gato_derecha.png";
+        playerMovLeft .src = "img/gato_izquierda.png";
+        obstaculoPerro1.src = "img/perro1.png";
+        obstaculoPerro2.src = "img/perro2.png";
+        obstaculoPerro3.src = "img/perro3.png";
+        obstaculoPerro1left.src = "img/perro1left.png";
+        obstaculoPerro2left.src = "img/perro2left.png";
+        obstaculoPerro3left.src = "img/perro3left.png";
+        dinero_dollar.src = "img/dinero.png";
+        imagenPausa.src = "img/menuPausa.png";
+        imagenStart.src = "img/menuStart.png";
+        imagenLevel2.src = "img/level2.png";
+        imagenLevel3.src = "img/level3.png";
+        imagenWinner.src = "img/winner.png";
 
         //Timer y Score
         var startTimer = 0;
@@ -140,11 +140,11 @@
         var score = 0;
 
         //Musica
-        const musica_fondo = new Audio("musica_fondo1.mp3");
-        const musica_lluvia = new Audio("musica_lluvia1.mp3");
-        const pilladoChaval = new Audio("aw-dangit.mp3");
-        const hazGanadoChaval = new Audio("yipe_win.mp3");
-        const hazPiladoPastaChaval = new Audio("ding.mp3");
+        const musica_fondo = new Audio("sounds/musica_fondo1.mp3");
+        const musica_lluvia = new Audio("sounds/musica_lluvia1.mp3");
+        const pilladoChaval = new Audio("sounds/aw-dangit.mp3");
+        const hazGanadoChaval = new Audio("sounds/yipe_win.mp3");
+        const hazPiladoPastaChaval = new Audio("sounds/ding.mp3");
 
         //Clases
         class Player {
