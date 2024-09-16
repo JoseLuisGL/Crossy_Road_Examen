@@ -56,7 +56,7 @@
 
         var direction = "";
         var obstaculos = [];
-        var speed = 30;
+        var speed = 0;
         var inicio = false;
         var pause = false;
         var level = 1;
@@ -193,6 +193,7 @@
                         inicio = true;
                         startTimer = Date.now();
                         pausedTimer = 0;
+                        speed = 30;
                     }
                 break;
                 case " ":
