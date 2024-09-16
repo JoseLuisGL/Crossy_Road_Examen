@@ -9,7 +9,6 @@
             margin: 0;
             padding: 0;
             height: 100%;
-            margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -45,15 +44,50 @@
                 background-position: 0% 100%;
             }
         }
+        .instrucciones {
+            position: absolute;
+            top: 20%;
+            right: 10%;
+            width: 200px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: Arial, sans-serif;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        }
+        .titulo{
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 28px;
+            color: red;
+            text-align: center;
+        }
+        .img-instrucciones {
+            width: 200px;
+            height: auto;
+            margin-bottom: 10px; 
+            display: block; 
+            margin-left: auto; 
+            margin-right: auto; 
+        }
     </style>
 </head>
 <body>
     <div class="rain"></div>
+    <div class="instrucciones">
+        <div class="titulo">Instrucciones:</div>
+        <br>W. Arriba <br>A. Izquierda <br>S. Abajo <br>D. Derecha
+        <img src="wasd.png" alt="Imagen Instrucciones" class="img-instrucciones">
+        SPACE. Pausa <br> <br>
+        <img src="space.png" alt="Imagen Instrucciones" class="img-instrucciones">
+    </div>
     <canvas id="canvas" width="900" height="900" tabindex="0"></canvas> 
     <script type="text/javascript">
         const canvas = document.getElementById("canvas");
         const ctx = canvas.getContext("2d");
 
+        //Variables
         var direction = "";
         var obstaculos = [];
         var speed = 0;
@@ -64,6 +98,8 @@
         var level3Transition = false;
         var winner = false;
         var winTime = 0;
+
+        //Imagenes var
         var campo = new Image();
         var playerMovRight = new Image();
         var playerMovLeft = new Image();
@@ -79,6 +115,8 @@
         var imagenLevel2 = new Image();
         var imagenLevel3 = new Image();
         var imagenWinner = new Image();
+
+        //Imagenes
         campo.src = "campo_fondo.jpg";
         playerMovRight.src = "gato_derecha.png";
         playerMovLeft .src = "gato_izquierda.png";
@@ -94,16 +132,21 @@
         imagenLevel2.src = "level2.png";
         imagenLevel3.src = "level3.png";
         imagenWinner.src = "winner.png";
+
+        //Timer y Score
         var startTimer = 0;
         var pausedTimer = 0;
         var timer = 0;
         var score = 0;
+
+        //Musica
         const musica_fondo = new Audio("musica_fondo1.mp3");
         const musica_lluvia = new Audio("musica_lluvia1.mp3");
         const pilladoChaval = new Audio("aw-dangit.mp3");
         const hazGanadoChaval = new Audio("yipe_win.mp3");
         const hazPiladoPastaChaval = new Audio("ding.mp3");
 
+        //Clases
         class Player {
             constructor(x, y , w, h, s, img) {
                 this.x = x;
@@ -158,7 +201,7 @@
 
         }
 
-        //Jugador y Obstaculos
+        //Jugador, Obstaculos y Dinero
         var player = new Player(450,819,60,60,10);
         var dinero = new Player(Math.random() * (600 - 100), Math.random() * (500 - 100), 30, 30);
         obstaculos.push(new Obstaculo(100, 90, 70, 70, 7, obstaculoPerro1));
