@@ -90,6 +90,7 @@
         //Variables
         var direction = "";
         var obstaculos = [];
+        var objetos = [];
         var speed = 0;
         var inicio = false;
         var pause = false;
@@ -115,6 +116,8 @@
         var imagenLevel2 = new Image();
         var imagenLevel3 = new Image();
         var imagenWinner = new Image();
+        var imagenBasura = new Image();
+        var imagenContenedor = new Image();
 
         //Imagenes
         campo.src = "img/campo_fondo.jpg";
@@ -132,6 +135,8 @@
         imagenLevel2.src = "img/level2.png";
         imagenLevel3.src = "img/level3.png";
         imagenWinner.src = "img/winner.png";
+        imagenBasura.src = "img/basura.png"
+        imagenContenedor.src = "img/contenedor.png"
 
         //Timer y Score
         var startTimer = 0;
@@ -198,17 +203,37 @@
                     }
                 }
             }
+            
+        }
+
+        class Objeto{
+            constructor(x, y , w, h, img,){
+                this.x = x;
+                this.y = y;
+                this.w = w;
+                this.h = h;
+                this.img = img;
+            }
 
         }
 
         //Jugador, Obstaculos y Dinero
         var player = new Player(450,819,60,60,10);
+
         var dinero = new Player(Math.random() * (600 - 100), Math.random() * (500 - 100), 30, 30);
+
         obstaculos.push(new Obstaculo(100, 90, 70, 70, 7, obstaculoPerro1));
         obstaculos.push(new Obstaculo(500, 255, 70, 70, 6, obstaculoPerro1left, "left")); //De derecha a izquierda obstaculo 2
         obstaculos.push(new Obstaculo(400, 417, 70, 70, 5, obstaculoPerro1));
         obstaculos.push(new Obstaculo(300, 582, 70, 70, 4, obstaculoPerro1left, "left")); //De derecha a izquierda obstaculo 4
         obstaculos.push(new Obstaculo(200, 745, 70, 70, 3, obstaculoPerro1));
+
+        objetos.push(new Objeto(100,820,45,40,imagenBasura));
+        objetos.push(new Objeto(100,669,45,40,imagenBasura));
+        objetos.push(new Objeto(200,519,45,40,imagenBasura));
+        objetos.push(new Objeto(600,339,45,40,imagenBasura));
+        objetos.push(new Objeto(100,189,45,40,imagenBasura));
+        objetos.push(new Objeto(100,316,100,80,imagenContenedor));
 
         
 
@@ -255,6 +280,10 @@
 
 
             if(!pause){
+                
+                let preX = player.x;
+                let preY = player.y;
+
                 switch(direction)
                 {
                     case "up":
@@ -286,6 +315,7 @@
 
                 obstaculos.forEach(obstaculo => obstaculo.movimiento());
 
+                //Colision con obstaculos
                 obstaculos.forEach(function (obstaculo, indice, array){
                     if(player.contacto(obstaculo)){
                         pilladoChaval.pause();
@@ -295,6 +325,15 @@
                     }
                 });
 
+                //Colision con objetos
+                objetos.forEach(function (objeto, indice, array) {
+                    if(player.contacto(objeto)){
+                        player.x = preX;
+                        player.y = preY;
+                    }
+                });
+
+                //Colision con dinero
                 if(player.contacto(dinero)){
                     hazPiladoPastaChaval.pause();
                     hazPiladoPastaChaval.play();
@@ -369,7 +408,7 @@
                 ctx.drawImage(campo, 0, 0, 900, 900);
                 ctx.font = "20px Verdana";
                 timer = Math.floor((Date.now() - startTimer) / 1000);
-                ctx.clearRect(395, 10, 130, 30); 
+                ctx.clearRect(395, 10, 135, 30); 
                 ctx.fillText("Tiempo: " + timer, 400, 32,);
 
                 ctx.font = "20px Verdana";
@@ -391,6 +430,12 @@
                     ctx.drawImage(obstaculo.img, obstaculo.x, obstaculo.y, obstaculo.w, obstaculo.h);
                 });
 
+                //Objetos
+                objetos.forEach(function (objeto) {
+                    ctx.drawImage(objeto.img, objeto.x, objeto.y, objeto.w, objeto.h);
+                });
+
+                //Pausa
                 if (pause) {
                 ctx.drawImage(imagenPausa, 0, 0, 930, 900);
                 timer = timer;
