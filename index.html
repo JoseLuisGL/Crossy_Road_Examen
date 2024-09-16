@@ -71,6 +71,14 @@
             margin-left: auto; 
             margin-right: auto; 
         }
+        .img-g {
+            width: 80px;
+            height: auto;
+            margin-bottom: 10px; 
+            display: block; 
+            margin-left: auto; 
+            margin-right: auto; 
+        }
     </style>
 </head>
 <body>
@@ -81,6 +89,8 @@
         <img src="img/wasd.png" alt="Imagen Instrucciones" class="img-instrucciones">
         SPACE. Pausa <br> <br>
         <img src="img/space.png" alt="Imagen Instrucciones" class="img-instrucciones">
+        G. Comida -> Speed + 10 Solo tienes 3 comidas<br> <br>
+        <img src="img/gkey.png" alt="Imagen Instrucciones" class="img-g">
     </div>
     <canvas id="canvas" width="900" height="900" tabindex="0"></canvas> 
     <script type="text/javascript">
@@ -91,6 +101,7 @@
         var direction = "";
         var obstaculos = [];
         var objetos = [];
+        var comidas = [];
         var speed = 0;
         var inicio = false;
         var pause = false;
@@ -118,6 +129,7 @@
         var imagenWinner = new Image();
         var imagenBasura = new Image();
         var imagenContenedor = new Image();
+        var imagenComida = new Image();
 
         //Imagenes
         campo.src = "img/campo_fondo.jpg";
@@ -135,8 +147,9 @@
         imagenLevel2.src = "img/level2.png";
         imagenLevel3.src = "img/level3.png";
         imagenWinner.src = "img/winner.png";
-        imagenBasura.src = "img/basura.png"
-        imagenContenedor.src = "img/contenedor.png"
+        imagenBasura.src = "img/basura.png";
+        imagenContenedor.src = "img/contenedor.png";
+        imagenComida.src = "img/comida.png";
 
         //Timer y Score
         var startTimer = 0;
@@ -150,6 +163,7 @@
         const pilladoChaval = new Audio("sounds/aw-dangit.mp3");
         const hazGanadoChaval = new Audio("sounds/yipe_win.mp3");
         const hazPiladoPastaChaval = new Audio("sounds/ding.mp3");
+        const hazComidoChaval = new Audio("sounds/ñomñom.mp3");
 
         //Clases
         class Player {
@@ -214,13 +228,22 @@
                 this.h = h;
                 this.img = img;
             }
-
+        }
+        
+        class Comida{
+            constructor(x, y , w, h, img,){
+                this.x = x;
+                this.y = y;
+                this.w = w;
+                this.h = h;
+                this.img = img;
+            }
         }
 
         //Jugador, Obstaculos y Dinero
         var player = new Player(450,819,60,60,10);
 
-        var dinero = new Player(Math.random() * (600 - 100), Math.random() * (500 - 100), 30, 30);
+        var dinero = new Player(Math.floor(Math.random() * 455), Math.floor(Math.random() * 455), 30, 30);
 
         obstaculos.push(new Obstaculo(100, 90, 70, 70, 7, obstaculoPerro1));
         obstaculos.push(new Obstaculo(500, 255, 70, 70, 6, obstaculoPerro1left, "left")); //De derecha a izquierda obstaculo 2
@@ -251,10 +274,7 @@
         objetos.push(new Objeto(500,189,45,40,imagenBasura));
         objetos.push(new Objeto(850,189,45,40,imagenBasura));
 
-
-        //objetos.push(new Objeto(100,316,100,80,imagenContenedor));
-
-        
+        var comidasDisponibles = 3; 
 
         document.addEventListener("keyup", function(e){
              console.log(e);
@@ -289,6 +309,17 @@
                         pausedTimer = Date.now();
                     } else {
                         startTimer += Date.now() - pausedTimer;
+                    }
+                break;
+                case "g":
+                    if (comidasDisponibles > 0) { 
+                        if (player.img == playerMovRight) {
+                            comidas.push(new Comida(player.x + 80, player.y + 20, 20, 20, imagenComida));
+                        } else if (player.img == playerMovLeft) {
+                            comidas.push(new Comida(player.x - 50, player.y + 20, 20, 20, imagenComida));
+                        }
+                        comidasDisponibles--;
+                        console.log("Comidas restantes: " + comidasDisponibles);
                     }
                 break;
             }
@@ -352,12 +383,22 @@
                     }
                 });
 
+                //Colison con comida
+                comidas.forEach(function(comida, indice, array){
+                    if(player.contacto(comida)){
+                        hazComidoChaval.pause();
+                        hazComidoChaval.play();
+                        comida.x =1000;
+                        speed+=10;
+                    }
+                });
+
                 //Colision con dinero
                 if(player.contacto(dinero)){
                     hazPiladoPastaChaval.pause();
                     hazPiladoPastaChaval.play();
-                    dinero.x = Math.floor(Math.random() * 800 - 100);
-                    dinero.y = Math.floor(Math.random() * 400 - 100)
+                    dinero.x = Math.floor(Math.floor(Math.random() * 455));
+                    dinero.y = Math.floor(Math.floor(Math.random() * 455));
                     score+=100;
                 }
 
@@ -403,6 +444,7 @@
 
                         winner = true;
                         winTime = timer;
+                        speed = 0;
 
                         score += 1000;
                         
@@ -453,6 +495,12 @@
                 objetos.forEach(function (objeto) {
                     ctx.drawImage(objeto.img, objeto.x, objeto.y, objeto.w, objeto.h);
                 });
+
+                //Comidas
+                comidas.forEach(function (comida) {
+                    ctx.drawImage(comida.img, comida.x, comida.y, comida.w, comida.h);
+                });
+
 
                 //Pausa
                 if (pause) {
