@@ -59,7 +59,7 @@
         var speed = 30;
         var inicio = false;
         var pause = false;
-        var level = 3;
+        var level = 1;
         var level2Transition = false;
         var level3Transition = false;
         var winner = false;
@@ -70,6 +70,9 @@
         var obstaculoPerro1 = new Image();
         var obstaculoPerro2 = new Image();
         var obstaculoPerro3 = new Image();
+        var obstaculoPerro1left = new Image();
+        var obstaculoPerro2left = new Image();
+        var obstaculoPerro3left = new Image();
         var dinero_dollar = new Image();
         var imagenPausa = new Image();
         var imagenStart = new Image();
@@ -82,6 +85,9 @@
         obstaculoPerro1.src = "perro1.png";
         obstaculoPerro2.src = "perro2.png";
         obstaculoPerro3.src = "perro3.png";
+        obstaculoPerro1left.src = "perro1left.png";
+        obstaculoPerro2left.src = "perro2left.png";
+        obstaculoPerro3left.src = "perro3left.png";
         dinero_dollar.src = "dinero.png";
         imagenPausa.src = "menuPausa.png";
         imagenStart.src = "menuStart.png";
@@ -156,9 +162,9 @@
         var player = new Player(450,819,60,60,10);
         var dinero = new Player(Math.random() * (600 - 100), Math.random() * (500 - 100), 30, 30);
         obstaculos.push(new Obstaculo(100, 90, 70, 70, 7, obstaculoPerro1));
-        obstaculos.push(new Obstaculo(500, 255, 70, 70, 6, obstaculoPerro1, "left")); //De derecha a izquierda obstaculo 2
+        obstaculos.push(new Obstaculo(500, 255, 70, 70, 6, obstaculoPerro1left, "left")); //De derecha a izquierda obstaculo 2
         obstaculos.push(new Obstaculo(400, 417, 70, 70, 5, obstaculoPerro1));
-        obstaculos.push(new Obstaculo(300, 582, 70, 70, 4, obstaculoPerro1, "left")); //De derecha a izquierda obstaculo 4
+        obstaculos.push(new Obstaculo(300, 582, 70, 70, 4, obstaculoPerro1left, "left")); //De derecha a izquierda obstaculo 4
         obstaculos.push(new Obstaculo(200, 745, 70, 70, 3, obstaculoPerro1));
 
         
@@ -262,9 +268,9 @@
 
                     if (level === 2) {
                         obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 90, 70, 70, 7, obstaculoPerro2))
-                        obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 255, 70, 70, 6, obstaculoPerro2, "left"))
+                        obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 255, 70, 70, 6, obstaculoPerro2left, "left"))
                         obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 417, 70, 70, 5, obstaculoPerro2))
-                        obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 582, 70, 70, 4, obstaculoPerro2, "left"))
+                        obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 582, 70, 70, 4, obstaculoPerro2left, "left"))
                         obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 745, 70, 70, 3, obstaculoPerro2))
 
                         level2Transition = true;
@@ -277,9 +283,9 @@
 
                     } else if (level === 3) {
                         obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 90, 70, 70, 7, obstaculoPerro3))
-                        obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 255, 70, 70, 6, obstaculoPerro3, "left"))
+                        obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 255, 70, 70, 6, obstaculoPerro3left, "left"))
                         obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 417, 70, 70, 5, obstaculoPerro3))
-                        obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 582, 70, 70, 4, obstaculoPerro3, "left"))
+                        obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 582, 70, 70, 4, obstaculoPerro3left, "left"))
                         obstaculos.push(new Obstaculo(Math.random() * (900 - 100), 745, 70, 70, 3, obstaculoPerro3))
                         
                         level3Transition = true;
